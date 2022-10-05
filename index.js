@@ -4,6 +4,8 @@ const fs = require('fs')
 
 const outputPath = core.getInput('OUTPUT_PATH')
 const secretName = core.getInput('SECRET_NAME')
+const returnRawSecret = core.getBooleanInput('RAW_SECRET')
+const rawSecretName = core.getInput('RAW_SECRET_NAME')
 
 const AWSConfig = {
   accessKeyId: core.getInput('AWS_ACCESS_KEY_ID') || process.env.AWS_ACCESS_KEY_ID,
@@ -28,6 +30,12 @@ getSecretValue(secretsManager, secretName).then(resp => {
   if (secretString == null) {
     core.warning(`${secretName} has no secret values`)
     return
+  }
+
+  if (returnRawSecret) {
+    core.setSecret(secretString);
+    core.exportVariable(rawSecretName || secretName, secretString);
+    return;
   }
 
   try {
