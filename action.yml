@@ -19,9 +19,15 @@ inputs:
   OUTPUT_PATH:
     description: 'Set output file where variables are write'
     required: false
+  RAW_SECRET:
+    description: 'Output the secret without JSON parsing'
+    required: false
+  RAW_SECRET_NAME:
+    description: 'Variable name to use for raw output, defaults to SECRET_NAME'
+    required: false
 runs:
   using: 'node12'
-  main: 'dist/index.js'
+  main: 'index.js'
 branding:
   icon: 'lock'
   color: 'orange'
